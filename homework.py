@@ -31,22 +31,22 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message):
-    """Отправка сообщения в Telegram"""
+    """Отправка сообщения в Telegram."""
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
-    except:
+    except Exception:
         logging.error(f'Сбой при отправке сообщения в Telegram "{message}"')
     else:
         logging.info(f'Сообщение отправлено в Telegram "{message}"')
 
 
 def get_api_answer(current_timestamp):
-    """Получения ответа от Я.Практикума"""
+    """Получения ответа от Я.Практикума."""
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
-    HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
+    headers = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
     homework_statuses = requests.get(ENDPOINT,
-                                     headers=HEADERS,
+                                     headers=headers,
                                      params=params
                                      )
     if homework_statuses.status_code != HTTPStatus.OK:
@@ -58,7 +58,7 @@ def get_api_answer(current_timestamp):
 
 
 def check_response(response):
-    """Проверка ответа Api Я.Практикума"""
+    """Проверка ответа Api Я.Практикума."""
     if not isinstance(response, dict):
         logging.error('Тип данных не dict')
         raise TypeError('Тип данных не dict')
@@ -72,7 +72,7 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """Парсинг словаря 'homeworks' из ответа Api Я.Практикума"""
+    """Парсинг словаря 'homeworks' из ответа Api Я.Практикума."""
     for key_name in ['lesson_name', 'status']:
         if key_name not in homework:
             logging.error(f'Отсутствие ключа {key_name} в ответе API')
@@ -87,7 +87,7 @@ def parse_status(homework):
 
 
 def check_tokens():
-    """Проверка наличия переменных окружения"""
+    """Проверка наличия переменных окружения."""
     for a in ['PRACTICUM_TOKEN', 'TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID']:
         if eval(a) is None:
             logging.critical(f'Нет обязательной переменной окружения: {a}')
