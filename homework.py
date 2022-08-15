@@ -97,7 +97,6 @@ def check_tokens():
 
 def main():
     """Основная логика работы бота."""
-
     if check_tokens() is False:
         raise NoTokenException('Недоступны необходимые переменные!')
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
