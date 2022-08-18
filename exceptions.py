@@ -4,3 +4,11 @@ class NoTokenException(Exception):
 
 class HttpNotFound(Exception):
     pass
+
+
+class HttpTimeOut(Exception):
+    pass
+
+
+class StatusCodeError(Exception):
+    pass
